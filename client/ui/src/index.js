@@ -1,34 +1,49 @@
 require('file?name=[name].[ext]!./index.html');
 
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as restClient from './restclient';
 
-const ContactsDashboard = React.createClass({
-  getInitialState: function(){
-    return {
+class ContactsDashboard extends Component{
+  constructor() {
+    super();
+    this.state = {
       contacts: [],
       userMessage: null,
     };
-  },
-  componentDidMount: function(){
+
+    this.handleCloseUserMessage = this.handleCloseUserMessage.bind(this);
+    this.handleCreateFormSubmit = this.handleCreateFormSubmit.bind(this);
+    this.handleEditFormSubmit = this.handleEditFormSubmit.bind(this);
+    this.handleTrashClick = this.handleTrashClick.bind(this);
+    this.refresh = this.refresh.bind(this);
+    this.restSetState = this.restSetState.bind(this);
+    this.restFailure = this.restFailure.bind(this);
+  }
+
+  componentDidMount(){
     this.refresh();
-  },
-  handleCreateFormSubmit: function(contact){
+  }
+
+  handleCreateFormSubmit(contact){
     this.createContact(contact);
-  },
-  handleCloseUserMessage: function(){
+  }
+
+  handleCloseUserMessage(){
     this.setState({
       userMessage: null
     });
-  },
-  handleEditFormSubmit: function(contact){
+  }
+
+  handleEditFormSubmit(contact){
     this.updateContact(contact);
-  },
-  handleTrashClick: function(contactId){
+  }
+
+  handleTrashClick(contactId){
     this.deleteContact(contactId);
-  },
-  restFailure: function(error){
+  }
+
+  restFailure(error){
     console.log("Failure: " + error.message);
     let message = error.message;
     if(error.response && error.response.data){
@@ -38,26 +53,32 @@ const ContactsDashboard = React.createClass({
     this.setState({
       userMessage: "Failure: " + message
     });
-  },
-  restSetState: function(response){
+  }
+
+  restSetState(response){
     console.log('REST setState: setting state to:' + response.data);
     this.setState({
       contacts: response.data
     });
-  },
-  refresh: function(){
+  }
+
+  refresh(){
     restClient.getAll(this.restSetState, this.restFailure);
-  },
-  createContact: function(contact){
+  }
+
+  createContact(contact){
     restClient.insertContact(contact, this.refresh, this.restFailure);
-  },
-  deleteContact: function(contactId){
+  }
+
+  deleteContact(contactId){
     restClient.deleteContact(contactId, this.refresh, this.restFailure);
-  },
-  updateContact: function(contact){
+  }
+
+  updateContact(contact){
     restClient.updateContact(contact, this.refresh, this.restFailure);
-  },
-  render: function(){
+  }
+
+  render(){
     return (
         <div>
           <UserMessages
@@ -75,11 +96,11 @@ const ContactsDashboard = React.createClass({
           />
         </div>
     );
-  },
-});
+  }
+}
 
-const UserMessages = React.createClass({
-  render: function(){
+class UserMessages extends Component{
+  render(){
     if(this.props.message){
       return (
           <div className="ui warning message transition">
@@ -99,11 +120,11 @@ const UserMessages = React.createClass({
           </div>
       )
     }
-  },
-});
+  }
+}
 
-const EditableContactList = React.createClass({
-  render: function(){
+class EditableContactList extends Component{
+  render(){
     const contacts = this.props.contacts.map((contact) => (
         <EditableContact
             key={contact.id}
@@ -127,32 +148,43 @@ const EditableContactList = React.createClass({
           </tbody>
         </table>
     );
-  },
-});
+  }
+}
 
-const EditableContact = React.createClass({
-  getInitialState: function(){
-    return {
+class EditableContact extends Component{
+  constructor(){
+    super();
+    this.state = {
       editFormOpen: false,
     };
-  },
-  handleEditClick: function(){
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFormClose = this.handleFormClose.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
+  }
+
+  handleEditClick(){
     this.openForm();
-  },
-  handleFormClose: function(){
+  }
+
+  handleFormClose(){
     this.closeForm();
-  },
-  handleSubmit: function(contact){
+  }
+
+  handleSubmit(contact){
     this.props.onFormSubmit(contact);
     this.closeForm();
-  },
-  closeForm: function(){
+  }
+
+  closeForm(){
     this.setState({editFormOpen: false});
-  },
-  openForm: function(){
+  }
+
+  openForm(){
     this.setState({editFormOpen: true});
-  },
-  render: function(){
+  }
+
+  render(){
     if(this.state.editFormOpen){
       return (
           <TableEmbeddedContactForm
@@ -170,12 +202,12 @@ const EditableContact = React.createClass({
           />
       );
     }
-  },
-});
+  }
+}
 
 /* This 'composition' allows using the ContactForm embedded in a <table> without getting DOM validation errors */
-const TableEmbeddedContactForm = React.createClass({
-  render: function(){
+class TableEmbeddedContactForm extends Component{
+  render(){
     return (
         <tr>
           <td>
@@ -184,10 +216,16 @@ const TableEmbeddedContactForm = React.createClass({
         </tr>
     )
   }
-});
+}
 
-const ContactForm = React.createClass({
-  handleSubmit: function(){
+class ContactForm extends Component{
+  constructor(){
+    super();
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(){
     let contact = {
       firstName: this.refs.firstName.value,
       middleName: this.refs.middleName.value,
@@ -198,8 +236,9 @@ const ContactForm = React.createClass({
       contact.id = this.props.contact.id;
 
     this.props.onFormSubmit(contact);
-  },
-  render: function(){
+  }
+
+  render(){
     let contact = this.props.contact;
 
     if(!contact)
@@ -240,29 +279,40 @@ const ContactForm = React.createClass({
           </div>
         </div>
     );
-  },
-});
+  }
+}
 
-const ToggleableContactForm = React.createClass({
-  getInitialState: function(){
-    return {
+class ToggleableContactForm extends Component{
+  constructor(){
+    super();
+    this.state = {
       isOpen: false,
     };
-  },
-  handleFormOpen: function(){
+
+    this.handleFormOpen = this.handleFormOpen.bind(this);
+    this.handleFormClose = this.handleFormClose.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleRefresh = this.handleRefresh.bind(this);
+  }
+
+  handleFormOpen(){
     this.setState({isOpen: true});
-  },
-  handleFormClose: function(){
+  }
+
+  handleFormClose(){
     this.setState({isOpen: false});
-  },
-  handleFormSubmit: function(contact){
+  }
+
+  handleFormSubmit(contact){
     this.props.onFormSubmit(contact);
     this.setState({isOpen: false});
-  },
-  handleRefresh: function(){
+  }
+
+  handleRefresh(){
     this.props.onRefresh();
-  },
-  render: function(){
+  }
+
+  render(){
     if(this.state.isOpen){
       return (
           <ContactForm
@@ -282,14 +332,21 @@ const ToggleableContactForm = React.createClass({
           </div>
       );
     }
-  },
-});
+  }
+}
 
-const Contact = React.createClass({
-  handleTrashClick: function(){
+class Contact extends Component{
+  constructor(){
+    super();
+
+    this.handleTrashClick = this.handleTrashClick.bind(this);
+  }
+
+  handleTrashClick(){
     this.props.onTrashClick(this.props.contact.id);
-  },
-  render: function(){
+  }
+
+  render(){
     let contact = this.props.contact;
     return (
         <tr>
@@ -310,8 +367,8 @@ const Contact = React.createClass({
           </td>
         </tr>
     );
-  },
-});
+  }
+}
 
 ReactDOM.render(
     <ContactsDashboard />,
