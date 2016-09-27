@@ -1,0 +1,3 @@
+insert into person (firstName, lastName, middleName, birthDay, gender, ethnicity, deceased) values ('John', 'Public', 'Q', '1975-08-08 20:08:08', 1, 0, 0);
+insert into person (firstName, lastName, middleName, birthDay, gender, ethnicity, deceased) values ('Jane', 'Doe', 'L', '1977-08-21 21:21:21', 0, 0, 0);
+insert into person (firstName, lastName, middleName, birthDay, gender, ethnicity, deceased) values ('Bob', 'Smith', 'N', '1975-08-20 21:21:21', 1, 0, 0);

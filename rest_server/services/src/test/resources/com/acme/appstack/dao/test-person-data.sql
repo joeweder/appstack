@@ -1,0 +1,1 @@
+insert into person (firstName, lastName, middleName, birthDay, gender, ethnicity, deceased) values ('Bob', 'Jones', 'X', '1975-08-08 20:08:08', 0, 0, 0);
