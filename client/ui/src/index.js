@@ -2,15 +2,62 @@ require('file?name=[name].[ext]!./index.html');
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, combineReducers  } from 'redux';
 import * as restClient from './restclient';
+
+const addMessageAction = (text) => {
+  return {
+    type: 'ADD_MESSAGE',
+    text: text
+  }
+};
+
+const removeMessageAction = () => {
+  return {
+    type: 'REMOVE_MESSAGE',
+    text: null
+  }
+};
+
+const messageReducer = (state = '', action) => {
+  console.log('messageReducer was called with state', state, 'and action', action);
+  switch (action.type) {
+    case 'ADD_MESSAGE':
+      return action.text;
+    case 'REMOVE_MESSAGE':
+      return '';
+    default:
+      return state;
+  }
+};
+
+const refreshContactsAction = (contacts) => {
+  return {
+    type: 'SET_CONTACTS',
+    contacts: contacts
+  }
+};
+
+const contactsReducer = (state = [], action) => {
+  console.log('contactsReducer was called with state', state, 'and action', action);
+  switch (action.type) {
+    case 'SET_CONTACTS':
+      return action.contacts;
+    default:
+      return state;
+  }
+};
+
+const rootReducer = combineReducers({
+  contacts: contactsReducer,
+  userMessage: messageReducer
+});
+
+let store = createStore(rootReducer, window.devToolsExtension && window.devToolsExtension());
 
 class ContactsDashboard extends Component{
   constructor() {
     super();
-    this.state = {
-      contacts: [],
-      userMessage: null,
-    };
 
     this.handleCloseUserMessage = this.handleCloseUserMessage.bind(this);
     this.handleCreateFormSubmit = this.handleCreateFormSubmit.bind(this);
@@ -30,9 +77,7 @@ class ContactsDashboard extends Component{
   }
 
   handleCloseUserMessage(){
-    this.setState({
-      userMessage: null
-    });
+    store.dispatch(removeMessageAction());
   }
 
   handleEditFormSubmit(contact){
@@ -50,16 +95,12 @@ class ContactsDashboard extends Component{
       message = error.response.data.message;
     }
 
-    this.setState({
-      userMessage: "Failure: " + message
-    });
+    store.dispatch(addMessageAction("Failure: " + message));
   }
 
   restSetState(response){
     console.log('REST setState: setting state to:' + response.data);
-    this.setState({
-      contacts: response.data
-    });
+    store.dispatch(refreshContactsAction(response.data));
   }
 
   refresh(){
@@ -82,7 +123,6 @@ class ContactsDashboard extends Component{
     return (
         <div>
           <UserMessages
-              message={this.state.userMessage}
               onClose={this.handleCloseUserMessage}
           />
           <ToggleableContactForm
@@ -90,7 +130,6 @@ class ContactsDashboard extends Component{
               onRefresh={this.refresh}
           />
           <EditableContactList
-              contacts={this.state.contacts}
               onFormSubmit={this.handleEditFormSubmit}
               onTrashClick={this.handleTrashClick}
           />
@@ -101,11 +140,11 @@ class ContactsDashboard extends Component{
 
 class UserMessages extends Component{
   render(){
-    if(this.props.message){
+    if(store.getState().userMessage){
       return (
           <div className="ui warning message transition">
             <i className="close icon" onClick={this.props.onClose}/>
-            {this.props.message}
+            {store.getState().userMessage}
             <div className="header">
             </div>
           </div>
@@ -125,7 +164,7 @@ class UserMessages extends Component{
 
 class EditableContactList extends Component{
   render(){
-    const contacts = this.props.contacts.map((contact) => (
+    const contacts = store.getState().contacts.map((contact) => (
         <EditableContact
             key={contact.id}
             contact={contact}
@@ -370,7 +409,13 @@ class Contact extends Component{
   }
 }
 
-ReactDOM.render(
-    <ContactsDashboard />,
-    document.getElementById('container')
-);
+const render = function() {
+  console.log('store has been updated. Latest store state:', store.getState());
+  ReactDOM.render(
+      <ContactsDashboard state={store.getState()}/>,
+      document.getElementById('container')
+  );
+};
+
+store.subscribe(render);
+render();
