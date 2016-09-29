@@ -55,9 +55,15 @@ const rootReducer = combineReducers({
 
 let store = createStore(rootReducer, window.devToolsExtension && window.devToolsExtension());
 
+store.subscribe(function() {
+  console.log('LOG: store has been updated. Latest store state:', store.getState());
+});
+
 class ContactsDashboard extends Component{
   constructor() {
     super();
+
+    this.state = store.getState();
 
     this.handleCloseUserMessage = this.handleCloseUserMessage.bind(this);
     this.handleCreateFormSubmit = this.handleCreateFormSubmit.bind(this);
@@ -69,6 +75,11 @@ class ContactsDashboard extends Component{
   }
 
   componentDidMount(){
+    store.subscribe(() => {
+      console.log('ContactsDashboard: store has been updated. Latest store state:', store.getState());
+      this.setState(store.getState())}
+    );
+
     this.refresh();
   }
 
@@ -120,9 +131,11 @@ class ContactsDashboard extends Component{
   }
 
   render(){
+    console.log("ContactsDashboard render()...");
     return (
         <div>
           <UserMessages
+              message={this.state.userMessage}
               onClose={this.handleCloseUserMessage}
           />
           <ToggleableContactForm
@@ -130,6 +143,7 @@ class ContactsDashboard extends Component{
               onRefresh={this.refresh}
           />
           <EditableContactList
+              contacts={this.state.contacts}
               onFormSubmit={this.handleEditFormSubmit}
               onTrashClick={this.handleTrashClick}
           />
@@ -140,11 +154,11 @@ class ContactsDashboard extends Component{
 
 class UserMessages extends Component{
   render(){
-    if(store.getState().userMessage){
+    if(this.props.message){
       return (
           <div className="ui warning message transition">
             <i className="close icon" onClick={this.props.onClose}/>
-            {store.getState().userMessage}
+            {this.props.message}
             <div className="header">
             </div>
           </div>
@@ -164,7 +178,7 @@ class UserMessages extends Component{
 
 class EditableContactList extends Component{
   render(){
-    const contacts = store.getState().contacts.map((contact) => (
+    const contacts = this.props.contacts.map((contact) => (
         <EditableContact
             key={contact.id}
             contact={contact}
@@ -409,6 +423,12 @@ class Contact extends Component{
   }
 }
 
+ReactDOM.render(
+    <ContactsDashboard/>,
+    document.getElementById('container')
+);
+
+/*
 const render = function() {
   console.log('store has been updated. Latest store state:', store.getState());
   ReactDOM.render(
@@ -418,4 +438,4 @@ const render = function() {
 };
 
 store.subscribe(render);
-render();
+render();*/
