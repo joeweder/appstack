@@ -2,14 +2,6 @@ import axios from 'axios'
 
 const url = 'http://localhost:8888/appstack/service/person';
 
-export function newContact() {
-  return {
-    firstName: '',
-    lastName: '',
-    middleName: '',
-  };
-}
-
 export function getAll(successCallBack, failCallback) {
   console.log('restClient refresh()...');
   axios.get(url).then(
