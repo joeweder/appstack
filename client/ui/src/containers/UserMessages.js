@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
-export default class UserMessages extends Component{
-  render(){
-    if(this.props.message){
-      return (
-          <div className="ui warning message transition">
-            <i className="close icon" onClick={this.props.onClose}/>
-            {this.props.message}
-            <div className="header">
-            </div>
-          </div>
-      )
-    }
-    else{
-      return (
-          <div className="ui warning message transition hidden">
-            <i className="close icon"/>
-            <div className="header">
-            </div>
-          </div>
-      )
-    }
-  }
+import {removeMessageAction} from '../actions/index'
+import UserMessages from '../components/UserMessages'
+
+const mapStateToProps = (state) => (
+{
+  userMessage: state.userMessage,
 }
+);
+
+const mapDispatchToProps = (dispatch) => (
+{
+  onClose: () => {dispatch(removeMessageAction())}
+}
+);
+
+const UserMessageContainer = connect(mapStateToProps, mapDispatchToProps)(UserMessages);
+
+export default UserMessageContainer
 

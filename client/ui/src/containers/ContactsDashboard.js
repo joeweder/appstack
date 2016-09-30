@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 import * as restClient from './restclient';
-import {addMessageAction, refreshContactsAction, removeMessageAction} from '../actions/index'
+import {addMessageAction, refreshContactsAction} from '../actions/index'
 import ToggleableContactForm from './ToggleableContactForm'
 import EditableContactList from './EditableContactList'
-import UserMessages from './UserMessages'
+import UserMessageContainer from './UserMessages'
 
 class ContactsDashboardComponent extends Component{
   constructor() {
@@ -18,10 +18,6 @@ class ContactsDashboardComponent extends Component{
 
   handleCreateFormSubmit = (contact) => {
     this.createContact(contact);
-  };
-
-  handleCloseUserMessage = () => {
-    this.props.dispatch(removeMessageAction());
   };
 
   handleEditFormSubmit = (contact) => {
@@ -67,10 +63,7 @@ class ContactsDashboardComponent extends Component{
     console.log("ContactsDashboard render()...");
     return (
         <div>
-          <UserMessages
-              message={this.props.userMessage}
-              onClose={this.handleCloseUserMessage}
-          />
+          <UserMessageContainer />
           <ToggleableContactForm
               onFormSubmit={this.handleCreateFormSubmit}
               onRefresh={this.refresh}
