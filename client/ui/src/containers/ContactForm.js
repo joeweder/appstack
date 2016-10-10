@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default class ContactForm extends Component{
-  constructor(){
+  constructor() {
     super();
   }
 
@@ -13,7 +13,7 @@ export default class ContactForm extends Component{
     };
   }
 
-  handleSubmit = () =>{
+  handleSubmit = () => {
     let contact = {
       firstName: this.refs.firstName.value,
       middleName: this.refs.middleName.value,
@@ -26,7 +26,7 @@ export default class ContactForm extends Component{
     this.props.onFormSubmit(contact);
   };
 
-  render(){
+  render() {
     let contact = this.props.contact;
 
     if(!contact)

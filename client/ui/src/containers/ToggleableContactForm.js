@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ContactForm from './ContactForm'
 
 export default class ToggleableContactForm extends Component{
-  constructor(){
+  constructor() {
     super();
     this.state = {
       isOpen: false,
@@ -26,7 +26,7 @@ export default class ToggleableContactForm extends Component{
     this.props.onRefresh();
   };
 
-  render(){
+  render() {
     if(this.state.isOpen){
       return (
           <ContactForm

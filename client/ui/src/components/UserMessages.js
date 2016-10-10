@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
 
 const UserMessages = (props) => {
-  if(props.userMessage){
+  let {userMessage, onClose} = props;
+
+  if(userMessage){
     return (
         <div className="ui warning message transition">
-          <i className="close icon" onClick={props.onClose}/>
-          {props.userMessage}
+          <i className="close icon" onClick={onClose}/>
+          {userMessage}
           <div className="header">
           </div>
         </div>

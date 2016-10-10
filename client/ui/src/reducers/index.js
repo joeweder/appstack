@@ -1,4 +1,4 @@
-import {combineReducers  } from 'redux';
+import {combineReducers} from 'redux';
 
 const messageReducer = (state = '', action) => {
   console.log('messageReducer was called with state', state, 'and action', action);
@@ -22,7 +22,7 @@ const contactsReducer = (state = [], action) => {
   }
 };
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers ({
   contacts: contactsReducer,
   userMessage: messageReducer
 });

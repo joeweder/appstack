@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default class Contact extends Component{
-  constructor(){
+  constructor() {
     super();
   }
 
@@ -9,7 +9,7 @@ export default class Contact extends Component{
     this.props.onTrashClick(this.props.contact.id);
   };
 
-  render(){
+  render() {
     let contact = this.props.contact;
     return (
         <tr>

@@ -59,7 +59,7 @@ class ContactsDashboardComponent extends Component{
     restClient.updateContact(contact, this.refresh, this.restFailure);
   };
 
-  render(){
+  render() {
     console.log("ContactsDashboard render()...");
     return (
         <div>
@@ -78,19 +78,20 @@ class ContactsDashboardComponent extends Component{
   }
 }
 
-const mapStateToProps = (state) => (
-  {
+const mapStateToProps = (state) => ({
     contacts: state.contacts,
     userMessage: state.userMessage,
-  }
-);
+});
 
+/*
 const mapDispatchToProps = (dispatch) => (
   {
     dispatch: dispatch,
   }
 );
+*/
 
-const ContactsDashboard = connect(mapStateToProps, mapDispatchToProps)(ContactsDashboardComponent);
+// const ContactsDashboard = connect(mapStateToProps, mapDispatchToProps)(ContactsDashboardComponent);
+const ContactsDashboard = connect(mapStateToProps)(ContactsDashboardComponent);
 
 export default ContactsDashboard
