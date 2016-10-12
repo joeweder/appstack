@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react';
 
 const UserMessages = (props) => {
   let {userMessage, onClose} = props;
@@ -11,7 +11,7 @@ const UserMessages = (props) => {
           <div className="header">
           </div>
         </div>
-    )
+    );
   }
   else{
     return (
@@ -20,7 +20,7 @@ const UserMessages = (props) => {
           <div className="header">
           </div>
         </div>
-    )
+    );
   }
 };
 
@@ -29,5 +29,5 @@ UserMessages.propTypes = {
   userMessage: PropTypes.string
 };
 
-export default UserMessages
+export default UserMessages;
 

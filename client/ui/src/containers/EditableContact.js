@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Contact from './Contact'
-import TableEmbeddedContactForm from './TableEmbeddedContactForm'
+import Contact from './Contact';
+import TableEmbeddedContactForm from './TableEmbeddedContactForm';
 
 export default class EditableContact extends Component{
   constructor(){

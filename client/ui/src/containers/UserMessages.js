@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import {removeMessageAction} from '../actions/index'
-import UserMessages from '../components/UserMessages'
+import {removeMessageAction} from '../actions/index';
+import UserMessages from '../components/UserMessages';
 
 const mapStateToProps = (state) => (
 {
@@ -12,11 +12,11 @@ const mapStateToProps = (state) => (
 
 const mapDispatchToProps = (dispatch) => (
 {
-  onClose: () => {dispatch(removeMessageAction())}
+  onClose: () => {dispatch(removeMessageAction());}
 }
 );
 
 const UserMessageContainer = connect(mapStateToProps, mapDispatchToProps)(UserMessages);
 
-export default UserMessageContainer
+export default UserMessageContainer;
 

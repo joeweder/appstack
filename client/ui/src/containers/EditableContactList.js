@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EditableContact from './EditableContact'
+import EditableContact from './EditableContact';
 
 export default class EditableContactList extends Component{
   render(){

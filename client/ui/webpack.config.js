@@ -4,7 +4,15 @@ module.exports = {
     path: './bin',
     filename: 'app.bundle.js'
   },
+  devtool: 'eval-source-map',
   module: {
+    preLoaders: [
+      {
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      },
+    ],
     loaders: [
     {
       test: /\.css$/, loader: "style!css"

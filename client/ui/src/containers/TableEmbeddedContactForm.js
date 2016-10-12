@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ContactForm from './ContactForm'
+import ContactForm from './ContactForm';
 
 /* This 'composition' allows using the ContactForm embedded in a <table> without getting DOM validation errors */
 export default class TableEmbeddedContactForm extends Component{
@@ -10,6 +10,6 @@ export default class TableEmbeddedContactForm extends Component{
             <ContactForm {...this.props} />
           </td>
         </tr>
-    )
+    );
   }
 }

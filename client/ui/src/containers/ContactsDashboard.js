@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import * as restClient from './restclient';
-import {addMessageAction, refreshContactsAction} from '../actions/index'
-import ToggleableContactForm from './ToggleableContactForm'
-import EditableContactList from './EditableContactList'
-import UserMessageContainer from './UserMessages'
+import {addMessageAction, refreshContactsAction} from '../actions/index';
+import ToggleableContactForm from './ToggleableContactForm';
+import EditableContactList from './EditableContactList';
+import UserMessageContainer from './UserMessages';
 
 class ContactsDashboardComponent extends Component{
   constructor() {
@@ -94,4 +94,4 @@ const mapDispatchToProps = (dispatch) => (
 // const ContactsDashboard = connect(mapStateToProps, mapDispatchToProps)(ContactsDashboardComponent);
 const ContactsDashboard = connect(mapStateToProps)(ContactsDashboardComponent);
 
-export default ContactsDashboard
+export default ContactsDashboard;

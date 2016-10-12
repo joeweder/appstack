@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
-const messageReducer = (state = '', action) => {
-  console.log('messageReducer was called with state', state, 'and action', action);
+export const messageReducer = (state = '', action) => {
+  // console.log('messageReducer was called with state', state, 'and action', action);
   switch (action.type) {
     case 'ADD_MESSAGE':
       return action.text;
@@ -12,8 +12,8 @@ const messageReducer = (state = '', action) => {
   }
 };
 
-const contactsReducer = (state = [], action) => {
-  console.log('contactsReducer was called with state', state, 'and action', action);
+export const contactsReducer = (state = [], action) => {
+  // console.log('contactsReducer was called with state', state, 'and action', action);
   switch (action.type) {
     case 'SET_CONTACTS':
       return action.contacts;
@@ -27,4 +27,4 @@ const rootReducer = combineReducers ({
   userMessage: messageReducer
 });
 
-export default rootReducer
+export default rootReducer;

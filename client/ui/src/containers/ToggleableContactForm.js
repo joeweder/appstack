@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ContactForm from './ContactForm'
+import ContactForm from './ContactForm';
 
 export default class ToggleableContactForm extends Component{
   constructor() {
