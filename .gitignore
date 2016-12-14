@@ -1,0 +1,4 @@
+client/ui/node_modules/
+**/.idea
+**/target/*
+**/*.iml
