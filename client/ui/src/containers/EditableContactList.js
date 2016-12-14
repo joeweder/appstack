@@ -5,7 +5,7 @@ export default class EditableContactList extends Component{
   render(){
     const contacts = this.props.contacts.map((contact) => (
         <EditableContact
-            key={contact.id}
+            key={contact.get('id')}
             contact={contact}
             onFormSubmit={this.props.onFormSubmit}
             onTrashClick={this.props.onTrashClick}

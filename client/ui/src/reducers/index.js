@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+import {fromJS} from 'immutable';
 
 export const messageReducer = (state = '', action) => {
   // console.log('messageReducer was called with state', state, 'and action', action);
@@ -16,7 +17,7 @@ export const contactsReducer = (state = [], action) => {
   // console.log('contactsReducer was called with state', state, 'and action', action);
   switch (action.type) {
     case 'SET_CONTACTS':
-      return action.contacts;
+      return fromJS(action.contacts);
     default:
       return state;
   }

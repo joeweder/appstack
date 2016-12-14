@@ -6,16 +6,16 @@ export default class Contact extends Component{
   }
 
   handleTrashClick = () => {
-    this.props.onTrashClick(this.props.contact.id);
+    this.props.onTrashClick(this.props.contact.get('id'));
   };
 
   render() {
     let contact = this.props.contact;
     return (
         <tr>
-          <td>{contact.lastName}</td>
-          <td>{contact.firstName}</td>
-          <td>{contact.middleName}</td>
+          <td>{contact.get('lastName')}</td>
+          <td>{contact.get('firstName')}</td>
+          <td>{contact.get('middleName')}</td>
           <td className="collapsing">
             <div className='ui buttons'>
               <button className='ui basic blue button'

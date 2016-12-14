@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import {fromJS} from 'immutable';
 
 export default class ContactForm extends Component{
   constructor() {
     super();
   }
 
-  createContact() {
-    return {
+  static createContact() {
+    return fromJS({
       firstName: '',
       lastName: '',
       middleName: '',
-    };
+    });
   }
 
   handleSubmit = () => {
@@ -21,7 +22,7 @@ export default class ContactForm extends Component{
     };
 
     if(this.props.contact)
-      contact.id = this.props.contact.id;
+      contact.id = this.props.contact.get('id');
 
     this.props.onFormSubmit(contact);
   };
@@ -30,10 +31,10 @@ export default class ContactForm extends Component{
     let contact = this.props.contact;
 
     if(!contact)
-      contact = this.createContact({});
+      contact = ContactForm.createContact({});
 
     console.log("ContactForm.render() contact = " + contact);
-    const submitText = contact.id ? 'Update' : 'Create';
+    const submitText = contact.get('id') ? 'Update' : 'Create';
     return (
         <div className='ui centered card'>
           <div className='content'>
@@ -41,17 +42,17 @@ export default class ContactForm extends Component{
               <div className='field'>
                 <label>First Name</label>
                 <input type='text' ref='firstName'
-                       defaultValue={contact.firstName}/>
+                       defaultValue={contact.get('firstName')}/>
               </div>
               <div className='field'>
                 <label>Middle Name</label>
                 <input type='text' ref='middleName'
-                       defaultValue={contact.middleName}/>
+                       defaultValue={contact.get('middleName')}/>
               </div>
               <div className='field'>
                 <label>Last Name</label>
                 <input type='text' ref='lastName'
-                       defaultValue={contact.lastName}/>
+                       defaultValue={contact.get('lastName')}/>
               </div>
               <div className='ui two bottom attached buttons'>
                 <button className='ui basic blue button'
