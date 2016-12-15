@@ -35,6 +35,7 @@ describe('immutability', () => {
       expect(list1.get(-3)).to.equal('alpha');
 
       expect(findIndexInList(list1, 'gamma')).to.equal(2);
+      expect(findIndexInList(list1, 'notfound')).to.equal(-1);
     });
   })
 });

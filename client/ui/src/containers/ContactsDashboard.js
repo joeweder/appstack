@@ -2,30 +2,39 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as restClient from './restclient';
-import {addMessageAction, refreshContactsAction} from '../actions/index';
+import {addMessageAction, setContactsAction, insertContactAction, removeContactAction, updateContactAction} from '../actions/index';
 import ToggleableContactForm from './ToggleableContactForm';
 import EditableContactList from './EditableContactList';
 import UserMessageContainer from './UserMessages';
 
-class ContactsDashboardComponent extends Component{
+class ContactsDashboardComponent extends Component {
   constructor() {
     super();
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.refresh();
-  }
+  };
+
+  refresh = () => {
+    restClient.getAll(this.setContacts, this.restFailure);
+  };
 
   handleCreateFormSubmit = (contact) => {
-    this.createContact(contact);
+    restClient.insertContact(contact, this.insertContact, this.restFailure);
   };
 
   handleEditFormSubmit = (contact) => {
-    this.updateContact(contact);
+    restClient.updateContact(contact, this.updateContact, this.restFailure);
   };
 
   handleTrashClick = (contactId) => {
-    this.deleteContact(contactId);
+    restClient.deleteContact(contactId, this.deleteContact, this.restFailure);
+  };
+
+  setContacts = (contacts) => {
+    console.log('Setting contacts list: ' + contacts);
+    this.props.dispatch(setContactsAction(contacts));
   };
 
   restFailure = (error) => {
@@ -38,25 +47,29 @@ class ContactsDashboardComponent extends Component{
     this.props.dispatch(addMessageAction("Failure: " + message));
   };
 
-  restSetState = (response) => {
-    console.log('REST setState: setting state to:' + response.data);
-    this.props.dispatch(refreshContactsAction(response.data));
-  };
-
-  refresh = () => {
-    restClient.getAll(this.restSetState, this.restFailure);
-  };
-
-  createContact = (contact) => {
-    restClient.insertContact(contact, this.refresh, this.restFailure);
-  };
-
-  deleteContact = (contactId) => {
-    restClient.deleteContact(contactId, this.refresh, this.restFailure);
+  insertContact = (contact) => {
+    this.props.dispatch(insertContactAction(contact));
   };
 
   updateContact = (contact) => {
-    restClient.updateContact(contact, this.refresh, this.restFailure);
+    let index = this.findIndexInListById(this.props.contacts, contact.id);
+    if(-1 != index) {
+      this.props.dispatch(updateContactAction(index, contact));
+    }
+  };
+
+  deleteContact = (contactId) => {
+    console.log("remove contact by ID: " + contactId);
+    let index = this.findIndexInListById(this.props.contacts, contactId);
+    if(-1 != index) {
+      this.props.dispatch(removeContactAction(index));
+    }
+  };
+
+  findIndexInListById = (list, id) => {
+    return list.findIndex(value => {
+      return value.get('id') === id;
+    });
   };
 
   render() {
@@ -75,7 +88,7 @@ class ContactsDashboardComponent extends Component{
           />
         </div>
     );
-  }
+  };
 }
 
 const mapStateToProps = (state) => ({

@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {fromJS} from 'immutable';
+import {List, fromJS} from 'immutable';
 
 export const messageReducer = (state = '', action) => {
   // console.log('messageReducer was called with state', state, 'and action', action);
@@ -13,14 +13,20 @@ export const messageReducer = (state = '', action) => {
   }
 };
 
-export const contactsReducer = (state = [], action) => {
-  // console.log('contactsReducer was called with state', state, 'and action', action);
+export const contactsReducer = (state = List(), action) => {
+  console.log('contactsReducer was called with state: ', state, ' and action: ', action);
   switch (action.type) {
     case 'SET_CONTACTS':
       return fromJS(action.contacts);
-    default:
-      return state;
+    case 'INSERT_CONTACT':
+      return state.push(fromJS(action.contact));
+    case 'UPDATE_CONTACT':
+      return state.set(action.index, fromJS(action.contact));
+    case 'REMOVE_CONTACT':
+      return state.delete(action.index);
   }
+
+  return state;
 };
 
 const rootReducer = combineReducers ({
