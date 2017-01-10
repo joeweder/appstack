@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8888/appstack/service/person';
+const url = '/appstack/service/person';
 
 export function getAll(successCallBack, failCallback) {
   console.log('restClient refresh()...');

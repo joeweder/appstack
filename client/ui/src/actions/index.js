@@ -1,7 +1,7 @@
 export const addMessageAction = (text) => {
   return {
     type: 'ADD_MESSAGE',
-    text: text
+    text
   };
 };
 
@@ -15,29 +15,29 @@ export const removeMessageAction = () => {
 export const setContactsAction = (contacts) => {
   return {
     type: 'SET_CONTACTS',
-    contacts: contacts
+    contacts
   };
 };
 
 export const insertContactAction = (contact) => {
   return {
     type: 'INSERT_CONTACT',
-    contact: contact
+    contact
   };
 };
 
 export const updateContactAction = (index, contact) => {
   return {
     type: 'UPDATE_CONTACT',
-    index: index,
-    contact: contact
+    index,
+    contact
   };
 };
 
 export const removeContactAction = (index) => {
   return {
     type: 'REMOVE_CONTACT',
-    index: index
+    index
   };
 };
 

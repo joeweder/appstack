@@ -5,6 +5,15 @@ module.exports = {
     filename: 'app.bundle.js'
   },
   devtool: 'eval-source-map',
+  devServer: {
+    proxy: {
+      '/appstack/service/**': {
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  },
   module: {
     preLoaders: [
       {

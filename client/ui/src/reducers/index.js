@@ -8,13 +8,13 @@ export const messageReducer = (state = '', action) => {
       return action.text;
     case 'REMOVE_MESSAGE':
       return '';
-    default:
-      return state;
   }
+
+  return state;
 };
 
 export const contactsReducer = (state = List(), action) => {
-  console.log('contactsReducer was called with state: ', state, ' and action: ', action);
+  // console.log('contactsReducer was called with state: ', state, ' and action: ', action);
   switch (action.type) {
     case 'SET_CONTACTS':
       return fromJS(action.contacts);

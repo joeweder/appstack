@@ -33,12 +33,12 @@ class ContactsDashboardComponent extends Component {
   };
 
   setContacts = (contacts) => {
-    console.log('Setting contacts list: ' + contacts);
+    // console.log('Setting contacts list: ' + contacts);
     this.props.dispatch(setContactsAction(contacts));
   };
 
   restFailure = (error) => {
-    console.log("Failure: " + error.message);
+    // console.log("Failure: " + error.message);
     let message = error.message;
     if(error.response && error.response.data){
       message = error.response.data.message;
@@ -59,7 +59,7 @@ class ContactsDashboardComponent extends Component {
   };
 
   deleteContact = (contactId) => {
-    console.log("remove contact by ID: " + contactId);
+    // console.log("remove contact by ID: " + contactId);
     let index = this.findIndexInListById(this.props.contacts, contactId);
     if(-1 != index) {
       this.props.dispatch(removeContactAction(index));
@@ -73,7 +73,7 @@ class ContactsDashboardComponent extends Component {
   };
 
   render() {
-    console.log("ContactsDashboard render()...");
+    // console.log("ContactsDashboard render()...");
     return (
         <div>
           <UserMessageContainer />

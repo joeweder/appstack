@@ -33,7 +33,7 @@ export default class ContactForm extends Component{
     if(!contact)
       contact = ContactForm.createContact({});
 
-    console.log("ContactForm.render() contact = " + contact);
+    // console.log("ContactForm.render() contact = " + contact);
     const submitText = contact.get('id') ? 'Update' : 'Create';
     return (
         <div className='ui centered card'>

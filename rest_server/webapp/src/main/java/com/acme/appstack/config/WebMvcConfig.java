@@ -25,12 +25,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter
     return new RestTemplate();
   }
 
+/*
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
       .allowedMethods("GET", "PUT", "POST", "DELETE")
       .allowedOrigins("*");
   }
+*/
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry)

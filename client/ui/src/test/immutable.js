@@ -16,7 +16,7 @@ describe('immutability', () => {
       let map2 = map1.setIn(['address', 'street'], '21 Memory Blvd.');
       expect(map2.getIn(['address', 'street'])).to.equal('21 Memory Blvd.', "expected immutable's key-path to retrieve the street");
 
-    })
+    });
   });
 
   describe('Lists', () => {
@@ -37,6 +37,6 @@ describe('immutability', () => {
       expect(findIndexInList(list1, 'gamma')).to.equal(2);
       expect(findIndexInList(list1, 'notfound')).to.equal(-1);
     });
-  })
+  });
 });
 

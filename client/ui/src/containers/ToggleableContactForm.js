@@ -37,10 +37,10 @@ export default class ToggleableContactForm extends Component{
     }else{
       return (
           <div className='ui small content center aligned segment'>
-            <div className='ui icon button' onClick={this.handleFormOpen}>
+            <div id='openAddContactFormButton' className='ui icon button' onClick={this.handleFormOpen}>
               <i className='plus icon'/>
             </div>
-            <button className='ui button icon' onClick={this.handleRefresh}>
+            <button id='refreshButton' className='ui button icon' onClick={this.handleRefresh}>
               <i className='refresh icon'/>
             </button>
           </div>
