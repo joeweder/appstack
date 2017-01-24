@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import EditableContact from './EditableContact';
 
 export default class EditableContactList extends Component{
@@ -29,3 +29,8 @@ export default class EditableContactList extends Component{
   }
 }
 
+EditableContactList.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
+  onTrashClick: PropTypes.func.isRequired,
+  contacts: PropTypes.object
+};

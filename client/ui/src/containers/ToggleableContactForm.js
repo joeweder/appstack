@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ContactForm from './ContactForm';
 
 export default class ToggleableContactForm extends Component{
@@ -48,3 +48,8 @@ export default class ToggleableContactForm extends Component{
     }
   }
 }
+
+ToggleableContactForm.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
+  onRefresh: PropTypes.func.isRequired
+};

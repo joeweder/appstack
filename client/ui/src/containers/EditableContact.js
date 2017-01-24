@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Contact from './Contact';
 import TableEmbeddedContactForm from './TableEmbeddedContactForm';
 
@@ -51,3 +51,9 @@ export default class EditableContact extends Component{
     }
   }
 }
+
+EditableContact.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
+  onTrashClick: PropTypes.func.isRequired,
+  contact: PropTypes.object
+};

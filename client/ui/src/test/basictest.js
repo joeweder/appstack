@@ -8,3 +8,35 @@ describe('Array', function() {
     });
   });
 });
+
+describe('Maps', function() {
+  it('should return the value for the key', function() {
+    let m1 = new Map();
+    m1.set("1", 1);
+    assert.equal(1, m1.get("1"));
+    assert.equal(1, m1.size);
+  });
+
+  it('allow for construction from another iterable', function() {
+    let m1 = new Map([['key1', 1], ['key2', 2]]);
+
+    assert.equal(1, m1.get('key1'));
+    assert.equal(2, m1.get('key2'));
+  });
+});
+
+describe('ES6:Destructuring', function() {
+  it('should return the value for the key', function() {
+    let m1 = new Map();
+    m1.set("1", 1);
+    assert.equal(1, m1.get("1"));
+    assert.equal(1, m1.size);
+  });
+
+  it('allow for construction from another iterable', function() {
+    let m1 = new Map([['key1', 1], ['key2', 2]]);
+
+    assert.equal(1, m1.get('key1'));
+    assert.equal(2, m1.get('key2'));
+  });
+});

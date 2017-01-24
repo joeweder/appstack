@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {fromJS} from 'immutable';
 
 export default class ContactForm extends Component{
@@ -70,3 +70,9 @@ export default class ContactForm extends Component{
     );
   }
 }
+
+ContactForm.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
+  onFormClose: PropTypes.func.isRequired,
+  contact: PropTypes.object
+};

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default class Contact extends Component{
   constructor() {
@@ -32,5 +32,12 @@ export default class Contact extends Component{
     );
   }
 }
+
+Contact.propTypes = {
+  onTrashClick: PropTypes.func.isRequired,
+  onEditClick: PropTypes.func.isRequired,
+  contact: PropTypes.object
+};
+
 
 

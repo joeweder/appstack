@@ -5,6 +5,11 @@ module.exports = {
     filename: 'app.bundle.js'
   },
   devtool: 'eval-source-map',
+  eslint: {
+    configFile: '.eslintrc',
+    failOnWarning: false,
+    failOnError: true,
+  },
   devServer: {
     proxy: {
       '/appstack/service/**': {

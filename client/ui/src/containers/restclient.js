@@ -14,7 +14,7 @@ export function getAll(successCallBack, failCallback) {
 export function deleteContact(id, successCallBack, failCallback) {
   console.log('restClient deleteContact id = ' + id);
   axios.delete(url + "/" + id).then(
-      response => {successCallBack(id);}
+      successCallBack(id)
     ).catch(
       response => {failCallback(response);}
     );

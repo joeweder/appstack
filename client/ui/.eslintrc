@@ -1,5 +1,9 @@
 {
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -7,7 +11,18 @@
       "jsx": true
     }
   },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "fetch": true
+  },
   "rules": {
-    "semi": 2
+    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used" }],
+    "no-undef": 1,
+    "no-console": 0
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import * as restClient from './restclient';
@@ -14,7 +14,7 @@ class ContactsDashboardComponent extends Component {
 
   componentDidMount() {
     this.refresh();
-  };
+  }
 
   refresh = () => {
     restClient.getAll(this.setContacts, this.restFailure);
@@ -88,7 +88,7 @@ class ContactsDashboardComponent extends Component {
           />
         </div>
     );
-  };
+  }
 }
 
 const mapStateToProps = (state) => ({
@@ -96,15 +96,11 @@ const mapStateToProps = (state) => ({
     userMessage: state.userMessage,
 });
 
-/*
-const mapDispatchToProps = (dispatch) => (
-  {
-    dispatch: dispatch,
-  }
-);
-*/
+ContactsDashboardComponent.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  contacts: PropTypes.object
+};
 
-// const ContactsDashboard = connect(mapStateToProps, mapDispatchToProps)(ContactsDashboardComponent);
 const ContactsDashboard = connect(mapStateToProps)(ContactsDashboardComponent);
 
 export default ContactsDashboard;
