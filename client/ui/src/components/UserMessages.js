@@ -1,27 +1,20 @@
 import React, { PropTypes } from 'react';
+import { Alert } from 'react-bootstrap';
 
 const UserMessages = (props) => {
   let {userMessage, onClose} = props;
 
   if(userMessage){
     return (
-        <div className="ui warning message transition">
-          <i className="close icon" onClick={onClose}/>
-          {userMessage}
-          <div className="header">
-          </div>
-        </div>
+      <Alert id='userMessages' bsStyle="danger" onDismiss={ onClose }>
+        {userMessage}
+      </Alert>
     );
   }
-  else{
-    return (
-        <div className="ui warning message transition hidden">
-          <i className="close icon"/>
-          <div className="header">
-          </div>
-        </div>
-    );
-  }
+
+  return (
+      <div id='userMessages' className='hidden'/>
+  );
 };
 
 UserMessages.propTypes = {

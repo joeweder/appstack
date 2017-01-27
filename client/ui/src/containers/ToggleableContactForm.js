@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ContactForm from './ContactForm';
+import { Button } from 'react-bootstrap';
 
 export default class ToggleableContactForm extends Component{
   constructor() {
@@ -36,13 +37,9 @@ export default class ToggleableContactForm extends Component{
       );
     }else{
       return (
-          <div className='ui small content center aligned segment'>
-            <div id='openAddContactFormButton' className='ui icon button' onClick={this.handleFormOpen}>
-              <i className='plus icon'/>
-            </div>
-            <button id='refreshButton' className='ui button icon' onClick={this.handleRefresh}>
-              <i className='refresh icon'/>
-            </button>
+          <div>
+            <Button id='openAddContactFormButton' className="glyphicon glyphicon-plus" onClick={this.handleFormOpen}/>
+            <Button id='refreshButton' className="glyphicon glyphicon-refresh" onClick={this.handleRefresh}/>
           </div>
       );
     }

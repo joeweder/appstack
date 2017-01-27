@@ -35,7 +35,7 @@ export default class EditableContact extends Component{
     if(this.state.editFormOpen){
       return (
           <TableEmbeddedContactForm
-              contact={this.props.contact}
+              contact={this.props.contact.toJS()}
               onFormSubmit={this.handleSubmit}
               onFormClose={this.handleFormClose}
           />

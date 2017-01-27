@@ -12,7 +12,7 @@ export default class EditableContactList extends Component{
         />
     ));
     return (
-        <table className="ui compact celled striped table">
+        <table className="table table-striped table-hover">
           <thead>
           <tr>
             <th>Last Name</th>
