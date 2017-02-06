@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 
 export default class Contact extends Component{
   constructor() {
@@ -18,8 +18,8 @@ export default class Contact extends Component{
           <td>{contact.get('firstName')}</td>
           <td>{contact.get('middleName')}</td>
           <td>
-            <Button className="glyphicon glyphicon-pencil" onClick={this.props.onEditClick}/>
-            <Button className="glyphicon glyphicon-trash" onClick={this.handleTrashClick}/>
+            <button type="button" className="btn btn-default glyphicon glyphicon-pencil" onClick={this.props.onEditClick}/>
+            <button type="button" className="btn btn-default glyphicon glyphicon-trash" onClick={this.handleTrashClick}/>
           </td>
         </tr>
     );

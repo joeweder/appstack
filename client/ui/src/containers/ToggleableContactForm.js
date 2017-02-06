@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ContactForm from './ContactForm';
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 
 export default class ToggleableContactForm extends Component{
   constructor() {
@@ -38,8 +38,8 @@ export default class ToggleableContactForm extends Component{
     }else{
       return (
           <div>
-            <Button id='openAddContactFormButton' className="glyphicon glyphicon-plus" onClick={this.handleFormOpen}/>
-            <Button id='refreshButton' className="glyphicon glyphicon-refresh" onClick={this.handleRefresh}/>
+            <button type="button" id='openAddContactFormButton' className="btn btn-default glyphicon glyphicon-plus" onClick={this.handleFormOpen}/>
+            <button type="button" id='refreshButton' className="btn btn-default glyphicon glyphicon-refresh" onClick={this.handleRefresh}/>
           </div>
       );
     }

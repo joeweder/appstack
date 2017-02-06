@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Form, FormGroup, Col, FormControl, ControlLabel, Button, Checkbox } from 'react-bootstrap';
 
 export default class ContactForm extends Component{
   constructor() {
@@ -55,61 +54,51 @@ export default class ContactForm extends Component{
     const submitText = contact.id ? 'Update' : 'Create';
 
     return (
-      <Form horizontal>
-        <FormGroup controlId="FirstName">
-          <Col componentClass={ControlLabel} sm={2}>
-            First Name
-          </Col>
-          <Col sm={10}>
-            <FormControl name='firstName' type="text" placeholder="First Name" value={contact.firstName} onChange={this.handleChange}/>
-          </Col>
-        </FormGroup>
-
-        <FormGroup controlId="MiddleName">
-          <Col componentClass={ControlLabel} sm={2}>
-            Middle Name
-          </Col>
-          <Col sm={10}>
-            <FormControl name="middleName" type="text" placeholder="Middle Name" value={contact.middleName} onChange={this.handleChange}/>
-          </Col>
-        </FormGroup>
-
-        <FormGroup controlId="LastName">
-          <Col componentClass={ControlLabel} sm={2}>
-            Last Name
-          </Col>
-          <Col sm={10}>
-            <FormControl name='lastName' type="text" placeholder="Last Name" value={contact.lastName} onChange={this.handleChange}/>
-          </Col>
-        </FormGroup>
-
-        <FormGroup controlId="gender">
-          <Col componentClass={ControlLabel} sm={2}>
-            Gender
-          </Col>
-          <Col sm={10}>
-            <FormControl name='gender' componentClass="select" placeholder="Select..." value={contact.gender} onChange={this.handleChange}>
+      <form className="form-horizontal">
+        <div className="form-group">
+          <label htmlFor="firstName" className="col-sm-2 control-label">First Name</label>
+          <div className="col-sm-10">
+            <input id="firstName" className="form-control" name="firstName" type="text" placeholder="First Name" value={contact.firstName} onChange={this.handleChange}/>
+          </div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="middleName" className="col-sm-2 control-label">Middle Name</label>
+          <div className="col-sm-10">
+            <input id="middleName" className="form-control" name="middleName" type="text" placeholder="Middle Name" value={contact.middleName} onChange={this.handleChange}/>
+          </div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastName" className="col-sm-2 control-label">Last Name</label>
+          <div className="col-sm-10">
+            <input id="lastName" className="form-control" name="lastName" type="text" placeholder="Last Name" value={contact.lastName} onChange={this.handleChange}/>
+          </div>
+        </div>
+        <div className="form-group">
+          <label htmlFor="gender" className="col-sm-2 control-label">Gender</label>
+          <div className="col-sm-10">
+            <select className="form-control" name='gender' placeholder="Select..." value={contact.gender} onChange={this.handleChange}>
               <option value="MALE">Male</option>
               <option value="FEMALE">Female</option>
-            </FormControl>
-          </Col>
-        </FormGroup>
+            </select >
+          </div>
+        </div>
 
-        <FormGroup controlId="deceased">
-          <Col smOffset={2} sm={10}>
-            <Checkbox name='deceased' checked={contact.deceased} onChange={this.handleCheckboxChange}>
-              Deceased
-            </Checkbox>
-          </Col>
-        </FormGroup>
+        <div className="form-group">
+          <div className="col-sm-10 col-sm-offset-2">
+            <div className="checkbox">
+              <label><input name="deceased" type="checkbox" checked={contact.deceased} onChange={this.handleCheckboxChange}/>Deceased</label>
+            </div>
+          </div>
+        </div>
 
-        <FormGroup>
-          <Col smOffset={2} sm={10}>
-            <Button onClick={this.handleSubmit}>{submitText}</Button>
-            <Button onClick={this.props.onFormClose}>Cancel</Button>
-          </Col>
-        </FormGroup>
-      </Form>
+        <div className="form-group">
+          <div className="col-sm-10 col-sm-offset-2">
+            <button type="button" className="btn btn-default" onClick={this.handleSubmit}>{submitText}</button>
+            <button type="button" className="btn btn-default" onClick={this.props.onFormClose}>Cancel</button>
+          </div>
+        </div>
+
+      </form>
     );
   }
 }

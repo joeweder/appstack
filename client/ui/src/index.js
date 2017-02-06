@@ -1,3 +1,5 @@
+// require('style!bootstrap/less/bootstrap.less');
+require('style!./styles/style.less');
 require('file?name=[name].[ext]!./index.html');
 
 import React from 'react';

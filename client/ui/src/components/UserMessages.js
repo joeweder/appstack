@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
-import { Alert } from 'react-bootstrap';
+// import { Alert } from 'react-bootstrap';
 
 const UserMessages = (props) => {
   let {userMessage, onClose} = props;
 
   if(userMessage){
     return (
-      <Alert id='userMessages' bsStyle="danger" onDismiss={ onClose }>
+      <div className="alert alert-danger" role="alert" id='userMessages' onClick={ onClose }>
         {userMessage}
-      </Alert>
+      </div>
     );
   }
 

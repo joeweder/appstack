@@ -14,11 +14,11 @@ describe("<UserMessages />", () => {
     const item = shallow(<UserMessages userMessage={message} />);
 
     //verify: rendered DOM values are what we expect
-    assert(item.hasClass('ui'));
-    assert(item.hasClass('warning'));
-    assert(item.hasClass('message'));
-    assert(item.hasClass('transition'));
-    expect(item.text()).to.equal(message);
+    // assert(item.hasClass('ui'));
+    // assert(item.hasClass('warning'));
+    // assert(item.hasClass('message'));
+    // assert(item.hasClass('transition'));
+    expect(item.childAt(0).text()).to.equal(message);
   });
   it('should react to onCloseClick', () => {
     //setup: create test data
@@ -28,7 +28,7 @@ describe("<UserMessages />", () => {
     //exercise: render the data into a component
     const item = shallow(<UserMessages userMessage={message} onClose={onCloseClick}/>);
 
-    item.find('i').simulate('click');
+    item.simulate('click');
     expect(onCloseClick).to.have.property('callCount', 1);
   });
 });
