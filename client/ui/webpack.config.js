@@ -1,5 +1,45 @@
+const webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+
+var isProd = (process.env.NODE_ENV === 'production');
+
+function formatCSS(base) {
+  var opt = (isProd ? '.min' : "");
+  return base.concat(opt, ".css");
+}
+
+function getPlugins() {
+  var plugins = [];
+  var bootstrapRootName = "./src/styles/bootstrap/css/bootstrap";
+
+  // Always expose NODE_ENV to webpack, you can now use `process.env.NODE_ENV`
+  // inside your code for any environment checks; UglifyJS will automatically
+  // drop any unreachable code.
+  plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': process.env.NODE_ENV
+    }
+  }));
+
+  plugins.push(
+    new ExtractTextPlugin("[name].css")
+  );
+
+  if (isProd) {
+    plugins.push(new webpack.optimize.UglifyJsPlugin());
+  }
+
+  plugins.push(
+      new CopyWebpackPlugin([
+        {from: formatCSS(bootstrapRootName), to: 'css/bootstrap.css'},
+        {from: formatCSS(bootstrapRootName.concat('-theme')), to: 'css/bootstrap-theme.css'},
+        {flatten: 'true', from: './src/styles/bootstrap/fonts/*', to: 'fonts'}
+      ])
+  );
+
+  return plugins;
+}
 
 module.exports = {
   entry: {
@@ -24,6 +64,7 @@ module.exports = {
       }
     }
   },
+  plugins: getPlugins(),
   module: {
     preLoaders: [
       {
@@ -33,12 +74,6 @@ module.exports = {
       },
     ],
     loaders: [
-/*
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-      },
-*/
       {
         test: /\.(less|css)$/,
         loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
@@ -76,13 +111,5 @@ module.exports = {
         }
       }
     ]
-  },
-  plugins: [
-    new ExtractTextPlugin("[name].css"),
-    new CopyWebpackPlugin([
-      {from: './src/styles/bootstrap/css/bootstrap.css', to: 'css/bootstrap.css'},
-      {from: './src/styles/bootstrap/css/bootstrap-theme.css', to: 'css/bootstrap-theme.css'},
-      {flatten: 'true', from: './src/styles/bootstrap/fonts/*', to: 'fonts'}
-    ])
-  ]
+  }
 };

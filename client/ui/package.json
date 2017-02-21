@@ -5,8 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha ./src/test/**/*.js --recursive --compilers js:babel-register --reporter spec",
-    "jest": "./node_modules/.bin/jest",
-    "lint": "./node_modules/.bin/eslint src/**"
+    "lint": "./node_modules/.bin/eslint src/**",
+    "wpds": "webpack-dev-server --progress --colors",
+    "production": "set NODE_ENV=production&& webpack -p",
+    "dev": "set NODE_ENV=development&& webpack"
   },
   "author": "Joe Weder",
   "license": "ISC",
