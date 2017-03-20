@@ -3,10 +3,16 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var isProd = (process.env.NODE_ENV === 'production');
+//set PRODUCTION_API=true  we default to false
+var isProductionAPI = 'true' === process.env.PRODUCTION_API || false;
 
 function formatCSS(base) {
   var opt = (isProd ? '.min' : "");
   return base.concat(opt, ".css");
+}
+
+function getProxyTarget() {
+  return isProductionAPI ? 'http://localhost:8888' : 'http://localhost:3004';
 }
 
 function getPlugins() {
@@ -58,7 +64,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/appstack/service/**': {
-        target: 'http://localhost:8888',
+        target: getProxyTarget(),
         changeOrigin: true,
         secure: false
       }

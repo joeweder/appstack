@@ -1,6 +1,0 @@
-[
-{"id":1,"firstName":"JohnT","middleName":"Q","lastName":"Public","birthday":176774888000,"gender":"MALE","ethnicity":"CAUCASIAN","deceased":false},
-{"id":2,"firstName":"JaneT","middleName":"L","lastName":"Doe","birthday":241060881000,"gender":"FEMALE","ethnicity":"CAUCASIAN","deceased":false},
-{"id":3,"firstName":"Bob","middleName":"N","lastName":"Smith","birthday":177816081000,"gender":"MALE","ethnicity":"CAUCASIAN","deceased":false},
-{"id":4,"firstName":"Bob","middleName":"M","lastName":"Jones","birthday":177816081000,"gender":"MALE","ethnicity":"CAUCASIAN","deceased":false}
-]

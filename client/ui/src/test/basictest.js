@@ -25,6 +25,16 @@ describe('Maps', function() {
   });
 });
 
+describe('Testing truthy', function() {
+  it('should not be truthy', function() {
+    assert.equal(false, 'true' === process.env.PRODUCTION_API || false);
+  });
+  it('should be truthy', function() {
+    let process = {"env": {"PRODUCTION_API": "true"}};
+    assert.equal(true, 'true' === process.env.PRODUCTION_API || false);
+  });
+});
+
 describe('ES6:Destructuring', function() {
   it('should return the value for the key', function() {
     let m1 = new Map();
