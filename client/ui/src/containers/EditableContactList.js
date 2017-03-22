@@ -2,6 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import EditableContact from './EditableContact';
 
 export default class EditableContactList extends Component{
+  static propTypes = {
+    onFormSubmit: PropTypes.func.isRequired,
+    onTrashClick: PropTypes.func.isRequired,
+    contacts: PropTypes.object
+  };
+
   render(){
     const contacts = this.props.contacts.map((contact) => (
         <EditableContact
@@ -28,9 +34,3 @@ export default class EditableContactList extends Component{
     );
   }
 }
-
-EditableContactList.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
-  onTrashClick: PropTypes.func.isRequired,
-  contacts: PropTypes.object
-};

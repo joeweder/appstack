@@ -12,6 +12,11 @@ class ContactsDashboardComponent extends Component {
     super();
   }
 
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    contacts: PropTypes.object
+  };
+
   componentDidMount() {
     this.refresh();
   }
@@ -95,11 +100,6 @@ const mapStateToProps = (state) => ({
     contacts: state.contacts,
     userMessage: state.userMessage,
 });
-
-ContactsDashboardComponent.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  contacts: PropTypes.object
-};
 
 const ContactsDashboard = connect(mapStateToProps)(ContactsDashboardComponent);
 

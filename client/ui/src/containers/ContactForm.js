@@ -11,6 +11,12 @@ export default class ContactForm extends Component{
     };
   }
 
+  static propTypes = {
+    onFormSubmit: PropTypes.func.isRequired,
+    onFormClose: PropTypes.func.isRequired,
+    contact: PropTypes.object
+  };
+
   createContact = () => {
     return {
       firstName: '',
@@ -102,9 +108,3 @@ export default class ContactForm extends Component{
     );
   }
 }
-
-ContactForm.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
-  onFormClose: PropTypes.func.isRequired,
-  contact: PropTypes.object
-};

@@ -10,6 +10,11 @@ export default class ToggleableContactForm extends Component{
     };
   }
 
+  static propTypes = {
+    onFormSubmit: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired
+  };
+
   handleFormOpen = () => {
     this.setState({isOpen: true});
   };
@@ -45,8 +50,3 @@ export default class ToggleableContactForm extends Component{
     }
   }
 }
-
-ToggleableContactForm.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
-  onRefresh: PropTypes.func.isRequired
-};

@@ -10,6 +10,12 @@ export default class EditableContact extends Component{
     };
   }
 
+  static propTypes = {
+    onFormSubmit: PropTypes.func.isRequired,
+    onTrashClick: PropTypes.func.isRequired,
+    contact: PropTypes.object
+  };
+
   handleEditClick = () => {
     this.openForm();
   };
@@ -51,9 +57,3 @@ export default class EditableContact extends Component{
     }
   }
 }
-
-EditableContact.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
-  onTrashClick: PropTypes.func.isRequired,
-  contact: PropTypes.object
-};

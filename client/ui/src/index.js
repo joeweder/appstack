@@ -8,7 +8,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 
 import rootReducer from './reducers';
-import ContactsDashboard from './containers/ContactsDashboard';
+import App from './App';
 
 const logger = store => next => action => {
   console.log('dispatching', action);
@@ -29,7 +29,7 @@ let store = createStore(rootReducer, undefined, composeEnhancers(
 
 ReactDOM.render(
     <Provider store={store}>
-      <ContactsDashboard />
+      <App />
     </Provider>,
     document.getElementById('container')
 );
