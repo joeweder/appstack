@@ -1,6 +1,9 @@
 const webpack = require('webpack');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+
+process.traceDeprecation = true;
 
 var isProd = (process.env.NODE_ENV === 'production');
 //set PRODUCTION_API=true  we default to false
@@ -52,15 +55,10 @@ module.exports = {
     contacts: './src/index.js'
   },
   output: {
-    path: './bin',
+    path: path.resolve(__dirname, './bin'),
     filename: '[name].bundle.js'
   },
   devtool: 'source-map',
-  eslint: {
-    configFile: '.eslintrc',
-    failOnWarning: false,
-    failOnError: true,
-  },
   devServer: {
     proxy: {
       '/appstack/service/**': {
@@ -72,49 +70,95 @@ module.exports = {
   },
   plugins: getPlugins(),
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.js?$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader'
+        enforce: "pre",
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            configFile: '.eslintrc',
+            failOnWarning: false,
+            failOnError: true
+          }
+        }
       },
-    ],
-    loaders: [
+      {
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015', 'react', 'stage-2']
+          }
+        }
+      },
       {
         test: /\.(less|css)$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+        use: ExtractTextPlugin.extract({
+            fallback: "style-loader",
+            use: "css-loader!less-loader"
+        })
       },
       {
         test: /\.png$/,
-        loader: "url-loader?limit=100000"
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit:'100000'
+            }
+          }
+        ]
       },
       {
         test: /\.jpg$/,
-        loader: "file-loader"
+        use: [
+          {
+            loader: "file-loader",
+          }
+        ]
       },
       {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff'
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit:'100000',
+              mimetype:'application/font-woff'
+            }
+          }
+        ]
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/octet-stream'
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit:'100000',
+              mimetype:'application/octet-stream'
+            }
+          }
+        ]
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file'
+        loader: 'file-loader'
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=image/svg+xml'
-      },
-      {
-        test: /\.js?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        query: {
-          presets: ['es2015', 'react', 'stage-2']
-        }
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit:'100000',
+              mimetype:'image/svg+xml'
+            }
+          }
+        ]
       }
     ]
   }

@@ -1,6 +1,6 @@
 // require('style!bootstrap/less/bootstrap.less');
-require('style!./styles/style.less');
-require('file?name=[name].[ext]!./index.html');
+require('style-loader!./styles/style.less');
+require('file-loader?name=[name].[ext]!./index.html');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
