@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ChunkHashReplacePlugin = require('chunkhash-replace-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
@@ -16,6 +17,11 @@ function formatCSS(base) {
 
 function getProxyTarget() {
   return isProductionAPI ? 'http://localhost:8888' : 'http://localhost:3004';
+}
+
+//[chunkhash] is slow for dev and wasn't able to get working with webpack-dev-server
+function getOutputFileName() {
+  return isProd ? '[name].[chunkhash].js' : '[name].js';
 }
 
 function getPlugins() {
@@ -47,6 +53,30 @@ function getPlugins() {
       ])
   );
 
+  plugins.push(
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: function (module) {
+          // this assumes your vendor imports exist in the node_modules directory
+          return module.context && module.context.indexOf('node_modules') !== -1;
+        }
+      })
+  );
+
+  plugins.push(
+      //CommonChunksPlugin will now extract all the common modules from vendor and main bundles
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest' //But since there are no more common modules between them we end up with just the runtime code included in the manifest file
+      })
+  );
+
+  plugins.push(
+      new ChunkHashReplacePlugin({
+        src: 'src/index.html',
+        dest: 'bin/index.html',
+      })
+  );
+
   return plugins;
 }
 
@@ -55,8 +85,8 @@ module.exports = {
     contacts: './src/index.js'
   },
   output: {
-    path: path.resolve(__dirname, './bin'),
-    filename: '[name].bundle.js'
+    filename: getOutputFileName(),
+    path: path.resolve(__dirname, './bin')
   },
   devtool: 'source-map',
   devServer: {

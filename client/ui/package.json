@@ -34,6 +34,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.24.1",
     "chai": "^3.5.0",
+    "chunkhash-replace-webpack-plugin": "0.0.10",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.23.1",
     "enzyme": "^2.8.2",
