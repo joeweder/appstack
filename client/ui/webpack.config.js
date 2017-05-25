@@ -1,58 +1,41 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const ChunkHashReplacePlugin = require('chunkhash-replace-webpack-plugin');
+// const ChunkHashReplacePlugin = require('chunkhash-replace-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 
-process.traceDeprecation = true;
+// process.traceDeprecation = true;
 
-var isProd = (process.env.NODE_ENV === 'production');
-//set PRODUCTION_API=true  we default to false
-var isProductionAPI = 'true' === process.env.PRODUCTION_API || false;
-
-function formatCSS(base) {
-  var opt = (isProd ? '.min' : "");
+function formatCSS(isProduction, base) {
+  let opt = (isProduction ? '.min' : "");
   return base.concat(opt, ".css");
 }
 
-function getProxyTarget() {
-  return isProductionAPI ? 'http://localhost:8888' : 'http://localhost:3004';
-}
+function getPlugins(isProduction) {
+  let plugins = [];
+  let bootstrapRootName = "./src/styles/bootstrap/css/bootstrap";
 
-//[chunkhash] is slow for dev and wasn't able to get working with webpack-dev-server
-function getOutputFileName() {
-  return isProd ? '[name].[chunkhash].js' : '[name].js';
-}
-
-function getPlugins() {
-  var plugins = [];
-  var bootstrapRootName = "./src/styles/bootstrap/css/bootstrap";
-
-  // Always expose NODE_ENV to webpack, you can now use `process.env.NODE_ENV`
-  // inside your code for any environment checks; UglifyJS will automatically
-  // drop any unreachable code.
-  plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-      'NODE_ENV': process.env.NODE_ENV
-    }
-  }));
-
-  plugins.push(
-    new ExtractTextPlugin("[name].css")
-  );
-
-  if (isProd) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin());
+/* This will replace key with value in code */
+  if(isProduction){
+    plugins.push(
+        new webpack.DefinePlugin({
+          'process.env.NODE_ENV': JSON.stringify('production')
+        })
+    );
   }
 
   plugins.push(
       new CopyWebpackPlugin([
-        {from: formatCSS(bootstrapRootName), to: 'css/bootstrap.css'},
-        {from: formatCSS(bootstrapRootName.concat('-theme')), to: 'css/bootstrap-theme.css'},
+        {from: formatCSS(isProduction, bootstrapRootName), to: 'css/bootstrap.css'},
+        {from: formatCSS(isProduction, bootstrapRootName.concat('-theme')), to: 'css/bootstrap-theme.css'},
         {flatten: 'true', from: './src/styles/bootstrap/fonts/*', to: 'fonts'}
       ])
   );
 
+/* Break out all vendor code into a separate bundle */
   plugins.push(
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
@@ -63,42 +46,84 @@ function getPlugins() {
       })
   );
 
+/* CommonChunksPlugin will now extract out the webpack runtime into a separate manifest. This prevents developer code
+   changes from changing the vendor [chunkHash] and vice versa. */
   plugins.push(
-      //CommonChunksPlugin will now extract all the common modules from vendor and main bundles
       new webpack.optimize.CommonsChunkPlugin({
-        name: 'manifest' //But since there are no more common modules between them we end up with just the runtime code included in the manifest file
+        name: 'manifest'
       })
   );
 
+/* This plugin REPLACES <script/> tags with the [name].[chunkHash].js build name in your html file. But we need name].[contenthash].css for CSS
+   and it doesn't support that. I opened an issue on github. Switched to HtmlWebpackPlugin instead.
   plugins.push(
       new ChunkHashReplacePlugin({
         src: 'src/index.html',
         dest: 'bin/index.html',
       })
   );
+*/
+
+/* Write the  <link href> line(s) for our CSS and the <script src> line(s) for our JavaScript into our template */
+  plugins.push(
+      new HtmlWebpackPlugin({
+        template: path.join( __dirname, 'src', 'index.html'),
+        filename: path.join( __dirname, 'bin', 'index.html'),
+      })
+  );
+
+  /* Help HtmlWebpackPlugin and add defer to the <script/> entries */
+  plugins.push(
+      new ScriptExtHtmlWebpackPlugin({
+        defaultAttribute: 'defer'
+      })
+  );
+
+  plugins.push(
+      new ExtractTextPlugin(isProduction ? '[name].[contenthash].css' : '[name].css')
+  );
+
+  /* Show html page of bundle layout and what's in each
+    plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static'
+        })
+    );
+  */
 
   return plugins;
 }
 
-module.exports = {
+module.exports = (env = {}) => {
+  console.log('module.exports() env = ' + env);
+  for(let propt in env){
+    console.log(propt + ': ' + env[propt]);
+  }
+  let isProduction = env.build === 'production';
+  let isProductionAPI = 'true' === env.PRODUCTION_API || false;
+  console.log('module.exports() isProduction = ' + isProduction);
+  console.log('module.exports() isProductionAPI = ' + isProductionAPI);
+
+  return {
   entry: {
     contacts: './src/index.js'
   },
   output: {
-    filename: getOutputFileName(),
+    //[chunkhash] is slow for development
+    filename: isProduction ? '[name].[chunkhash].js' : '[name].js',
     path: path.resolve(__dirname, './bin')
   },
-  devtool: 'source-map',
+  devtool: isProduction ? 'source-map' : 'eval-source-map',
   devServer: {
     proxy: {
       '/appstack/service/**': {
-        target: getProxyTarget(),
+        target: isProductionAPI ? 'http://localhost:8888' : 'http://localhost:3004',
         changeOrigin: true,
         secure: false
       }
     }
   },
-  plugins: getPlugins(),
+  plugins: getPlugins(isProduction),
   module: {
     rules: [
       {
@@ -176,7 +201,9 @@ module.exports = {
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file-loader'
+        use: [
+          {loader: 'file-loader'}
+        ]
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -192,4 +219,4 @@ module.exports = {
       }
     ]
   }
-};
+}};

@@ -1,19 +1,18 @@
 import React from 'react';
 import {
-    BrowserRouter as Router,
+    BrowserRouter,
     Route,
     Switch,
     Link
-} from 'react-router-dom'
+} from 'react-router-dom';
 
-//This isn't supposed to be needed with RRv4.0.0-alpha.6
-// import createBrowserHistory from 'history/createBrowserHistory'
-// const history = createBrowserHistory();
+// import asyncComponent from './asyncComponent';
 
 import ContactsDashboard from './containers/ContactsDashboard';
+// const ContactsDashboard = asyncComponent(() => import('./containers/ContactsDashboard').then(module => module.default), {"key": 1, "value": "hello"});
 
 const App = () => (
-    <Router>
+    <BrowserRouter>
       <div>
         <ul>
           <li><Link to="/">Home</Link></li>
@@ -46,7 +45,7 @@ const App = () => (
           )} />
         </Switch>
       </div>
-    </Router>
+    </BrowserRouter>
 );
 
 export default App;
